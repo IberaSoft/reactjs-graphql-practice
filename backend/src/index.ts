@@ -26,7 +26,7 @@ async function startServer() {
 
   // Register Apollo Server
   await fastify.register(fastifyApollo(apollo), {
-    context: async (request, reply) => createContext(request, reply),
+    context: async (request: any, reply: any) => createContext(request, reply),
   });
 
   // Health check endpoint
