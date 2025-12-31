@@ -1,5 +1,6 @@
 import { ApolloClient, InMemoryCache, createHttpLink, from } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
+import gql from 'graphql-tag';
 import { endpoint, prodEndpoint } from '../config';
 
 const httpLink = createHttpLink({
@@ -14,6 +15,12 @@ const authLink = setContext((_, { headers }) => {
     },
   };
 });
+
+const LOCAL_STATE_QUERY = gql`
+  query {
+    cartOpen @client
+  }
+`;
 
 const cache = new InMemoryCache({
   typePolicies: {
@@ -36,11 +43,7 @@ const cache = new InMemoryCache({
 
 // Initialize cache with default values
 cache.writeQuery({
-  query: require('graphql-tag').default`
-    query {
-      cartOpen @client
-    }
-  `,
+  query: LOCAL_STATE_QUERY,
   data: {
     cartOpen: false,
   },
@@ -59,4 +62,7 @@ export const client = new ApolloClient({
     },
   },
 });
+
+// Export the local state query for use in components
+export { LOCAL_STATE_QUERY };
 
