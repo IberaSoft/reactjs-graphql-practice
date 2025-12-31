@@ -1,4 +1,4 @@
-# import * from './generated/prisma.graphql'
+# GraphQL Schema for Sick Fits E-Commerce Platform
 
 type SuccessMessage {
   message: String
@@ -13,7 +13,7 @@ type Mutation {
   signout: SuccessMessage
   requestReset(email: String!): SuccessMessage
   resetPassword(resetToken: String!, password: String!, confirmPassword: String!): User!
-  updatePermissions(permissions: [Permission], userId: ID!): User
+  updatePermissions(permissions: [Permission!], userId: ID!): User
   addToCart(id: ID!): CartItem
   removeFromCart(id: ID!): CartItem
   createOrder(token: String!): Order!
@@ -27,10 +27,99 @@ type Query {
   users: [User]!
 }
 
-type User{
+type User {
   id: ID!
   name: String!
   email: String!
   permissions: [Permission!]!
   cart: [CartItem!]!
+  items: [Item!]!
+  orders: [Order!]!
+}
+
+type Item {
+  id: ID!
+  title: String!
+  description: String!
+  image: String
+  largeImage: String
+  price: Int!
+  user: User!
+  createdAt: String!
+  updatedAt: String!
+}
+
+type CartItem {
+  id: ID!
+  quantity: Int!
+  item: Item
+  user: User!
+  createdAt: String!
+  updatedAt: String!
+}
+
+type OrderItem {
+  id: ID!
+  title: String!
+  description: String!
+  image: String!
+  largeImage: String!
+  price: Int!
+  quantity: Int!
+  createdAt: String!
+  updatedAt: String!
+}
+
+type Order {
+  id: ID!
+  items: [OrderItem!]!
+  total: Int!
+  user: User!
+  charge: String!
+  createdAt: String!
+  updatedAt: String!
+}
+
+type ItemConnection {
+  aggregate: Aggregate!
+}
+
+type Aggregate {
+  count: Int!
+}
+
+enum Permission {
+  ADMIN
+  USER
+  ITEMCREATE
+  ITEMUPDATE
+  ITEMDELETE
+  PERMISSIONUPDATE
+}
+
+input ItemWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  title_contains: String
+  description_contains: String
+  price: Int
+  price_gte: Int
+  price_lte: Int
+}
+
+input ItemOrderByInput {
+  createdAt: SortOrder
+  price: SortOrder
+  title: SortOrder
+}
+
+enum SortOrder {
+  asc
+  desc
+}
+
+input ItemWhereUniqueInput {
+  id: ID
 }

@@ -25,6 +25,8 @@
   "dependencies": {
     "@apollo/server": "^4.11.0",
     "@as-integrations/fastify": "^2.1.0",
+    "@fastify/cookie": "^10.0.1",
+    "@fastify/cors": "^10.0.0",
     "@prisma/client": "^5.19.1",
     "apollo-server-core": "^3.13.0",
     "bcryptjs": "^2.4.3",
