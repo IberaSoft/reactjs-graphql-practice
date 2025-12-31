@@ -15,51 +15,40 @@ const authLink = setContext((_, { headers }) => {
   };
 });
 
-export const client = new ApolloClient({
-  link: from([authLink, httpLink]),
-  cache: new InMemoryCache({
-    typePolicies: {
-      Query: {
-        fields: {
-          items: {
-            merge(existing = [], incoming: any[]) {
-              return incoming;
-            },
-          },
-          cartOpen: {
-            read() {
-              return false;
-            },
+const cache = new InMemoryCache({
+  typePolicies: {
+    Query: {
+      fields: {
+        items: {
+          merge(existing = [], incoming: any[]) {
+            return incoming;
           },
         },
-      },
-      Mutation: {
-        fields: {
-          toggleCart(_, { cache }) {
-            const { cartOpen } = cache.readQuery({
-              query: require('graphql-tag').default`
-                query {
-                  cartOpen @client
-                }
-              `,
-            }) as { cartOpen: boolean };
-            const data = {
-              cartOpen: !cartOpen,
-            };
-            cache.writeQuery({
-              query: require('graphql-tag').default`
-                query {
-                  cartOpen @client
-                }
-              `,
-              data,
-            });
-            return data;
+        cartOpen: {
+          read() {
+            return false;
           },
         },
       },
     },
-  }),
+  },
+});
+
+// Initialize cache with default values
+cache.writeQuery({
+  query: require('graphql-tag').default`
+    query {
+      cartOpen @client
+    }
+  `,
+  data: {
+    cartOpen: false,
+  },
+});
+
+export const client = new ApolloClient({
+  link: from([authLink, httpLink]),
+  cache,
   credentials: 'include',
   defaultOptions: {
     watchQuery: {
