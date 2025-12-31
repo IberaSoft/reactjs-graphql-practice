@@ -4,7 +4,7 @@
   <img src="assets/rrg-logo.png" alt="React GraphQL Practice" width="200">
 </p>
 
-A full-stack e-commerce application demonstrating modern GraphQL architecture, built with React, Next.js, Apollo Server, and Prisma. This project showcases production-ready GraphQL patterns including type-safe resolvers, efficient data fetching, real-time subscriptions, and comprehensive error handling.
+This is a full-stack e-commerce application with a modern GraphQL architecture for learning purposes. Its showcases a production-ready app including type-safe resolvers, efficient data fetching, real-time subscriptions, and comprehensive error handling.
 
 ## 🚀 Tech Stack
 
@@ -261,8 +261,6 @@ npm run test:all
 2. Set up PostgreSQL database
 3. Configure environment variables
 4. Deploy
-
-See `REFACTORING_PLAN.md` for detailed deployment instructions.
 
 ## 📖 GraphQL Best Practices Demonstrated
 
