@@ -22,7 +22,7 @@ export interface GraphQLContext {
 }
 
 export async function getUserId(request: Request): Promise<string | null> {
-  const token = request.cookies?.token;
+  const token = (request.cookies as any)?.token;
   if (!token) {
     return null;
   }
